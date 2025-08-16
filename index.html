@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Happy Birthday ❤️</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>🎉 Happy Birthday, Essie! 🎂</h1>
+        <p class="message">
+            Wishing you all the love, joy, and laughter today and always. You deserve the best, always. 💖
+        </p>
+
+        <div class="slideshow">
+            <img id="slideshow-img" src="images/photo1.jpg" alt="Birthday Memories">
+        </div>
+    </div>
+
+    <script>
+        // Load images from XML
+        fetch('data.xml')
+            .then(response => response.text())
+            .then(str => (new window.DOMParser()).parseFromString(str, "text/xml"))
+            .then(data => {
+                const images = Array.from(data.getElementsByTagName('photo')).map(p => p.textContent);
+                let index = 0;
+                const imgElement = document.getElementById('slideshow-img');
+
+                setInterval(() => {
+                    index = (index + 1) % images.length;
+                    imgElement.classList.remove('fade-in');
+                    void imgElement.offsetWidth; // trigger reflow for animation
+                    imgElement.src = images[index];
+                    imgElement.classList.add('fade-in');
+                }, 3000);
+            });
+    </script>
+</body>
+</html>
